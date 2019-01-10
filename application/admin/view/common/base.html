@@ -18,10 +18,11 @@
                     {$Think.session.admin_user.name}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{:url('index/siteInfo')}">网站设置</a></dd>
                     <dd><a href="{:url('index/changePassword')}">修改密码</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item"><a href="{$Think.config.website.url}">网站首页</a></li>
+            <li class="layui-nav-item"><a href="{:url('index/siteInfo')}">网站设置</a></li>
             <li class="layui-nav-item"><a href="./clear">清除缓存</a></li>
             <li class="layui-nav-item"><a href="./logout">退出</a></li>
         </ul>

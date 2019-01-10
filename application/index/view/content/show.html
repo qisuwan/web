@@ -13,7 +13,7 @@
         <!--个人信息-->
         <div class="info">
             <div class="img-box"><img src="__IMG__/dog.jpeg" alt=""></div>
-            <span>旅丶途</span>
+            <span><a href="{$Think.config.website.url}">旅丶途</a></span>
             <p><a href="mailto:1084640252@qq.com">1084640252@qq.com</a></p>
         </div>
         <!--评论-->
@@ -31,7 +31,7 @@
     <!--右边的内容-->
     <article>
         <div class="content-head-bg">
-            <span><a href="#">首页</a></span><span> -</span>
+            <span><a href="{$Think.config.website.url}">首页</a></span><span> -</span>
             <span><a href="{:url('index')}">随笔</a></span><span> -</span>
             <span>内容</span>
         </div>
@@ -48,8 +48,9 @@
     <footer>
         <div class="">
             <p>看过一句话“8小时内求生存，8小时外求发展”，emmmmmm......对，很对！</p>
-            <p>网站点击数：0</p>
-            <p>design by 旅丶途  备案号：</p>
+            <p>网站点击数：{$count|default=0}</p>
+            <p>design by <a href="{$Think.config.website.url}">旅丶途</a> 备案号：<a href="http://www.miitbeian.gov.cn">{$Think.config.website.IPC}</a>
+            </p>
         </div>
     </footer>
     <script src="__JS__/layui/layui.js"></script>

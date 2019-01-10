@@ -9,5 +9,5 @@ return [
 	'catch_time' => '0',
 	'title' => 'welcome',
 	'meta' => '个人兴趣',
-	'copy' => '',
+    'ICP' => '',
 ];
