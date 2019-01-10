@@ -1,0 +1,94 @@
+{extend name="common:base" /}
+{block name="content"}
+<table id="message" lay-filter="loglist">
+</table>
+{/block}
+{block name="js"}
+<script type="text/html" id="headtool">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="getDeleteData">批量删除</button>
+  </div>
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+layui.use(['element','table'], function() {
+    var table = layui.table
+        , element = layui.element;
+    table.render({
+        elem: '#message',
+        url: 'getinfo'
+        , toolbar: '#headtool'
+        , cellMinWidth: 80 //全局定义常规单元格的最小宽度
+        , cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            , {field: 'id', width: 80, title: 'ID'}
+            , {field: 'name', width: 80, title: '类别'}
+            , {field: 'email', width: 160, title: '联系邮箱'}
+            , {field: 'content', width: 80, title: '内容'}
+            , {field: 'create_time', width: 160, title: '时间'}
+            , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+        ]]
+        //,skin: 'line' //表格风格
+        , even: true
+        , page: true //是否显示分页
+        //,limits: [5, 7, 10]
+        //,limit: 5 //每页默认显示的数量
+    });
+    //头工具栏事件
+    table.on('toolbar(loglist)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        if (checkStatus.data.length == 0) {
+            layer.msg("请选择数据");
+            return 0;
+        }
+        if (obj.event == 'getDeleteData') {
+            var data = checkStatus.data;
+            var val = [];
+            for (let i in data) {
+                val.push(data[i].id);
+            }
+            layer.confirm('是否确定？', function (index) {
+                layer.close(index);
+                $.ajax({
+                    url: "delete",
+                    type: "post",
+                    data: "ids=" + val,
+                    success: function (result) {
+                        if (result) {
+                            layer.msg("成功", {icon: 1});
+                            setTimeout(function () {
+                                table.reload('message');
+                            }, 1000);
+                        } else {
+                            layer.msg("失败", {icon: 2});
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+    //监听行工具事件
+    table.on('tool(loglist)', function (obj) {
+        var data = obj.data;
+        //console.log(obj)
+        if (obj.event === 'del') {
+            layer.confirm('确定删除留言?', function (index) {
+                layer.close(index);
+                layer.msg("请稍后", {icon: 16, shade: 0.1, time: false});
+                $.post("delete", "ids=" + data.id, function (result, status) {
+                    if (result && status) {
+                        obj.del();
+                        layer.msg("成功", {icon: 1})
+                    } else {
+                        layer.msg("失败", {icon: 2});
+                    }
+                });
+            });
+        }
+    });
+})
+</script>
+{/block}

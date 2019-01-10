@@ -1,0 +1,71 @@
+{extend name="common/base" /}
+{block name="content"}
+<div class="layui-fluid">
+	<div class="layui-breadcrumb" style="margin-top:10px">
+		<a href="./">文章列表</a>
+		<a><cite>{$title}</cite></a>
+	</div>
+	<hr class="layui-bg-black">
+	<form class="layui-form" action="{$target}" method="post">
+		<div class="layui-form-item">
+			<input name="id" class="layui-input" type="hidden" value="{$data.id|default=''}"/>
+		</div>
+		<div class="layui-form-item">	
+			<label class="layui-form-label">* 标题</label>
+			<div class="layui-input-inline">
+				<input name="title" class="layui-input" type="text" value="{$data.title|default=''}" placeholder="" autocomplete="off"/>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">* 标签</label>
+			<div class="layui-input-inline">
+				<select name="tag_id">
+					{volist name="tag" id="val"}
+						<option value="{$val.id}" {if condition="isset($data) and $data.tag_id eq $val.id"}selected="selected"{/if}>{$val.tag_name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">	
+			<label class="layui-form-label">作者</label>
+			<div class="layui-input-inline">
+				<input name="author" class="layui-input" type="text"  value="{$data.author|default=''}" placeholder="" autocomplete="off"/>
+			</div>
+		</div>
+		<div class="layui-form-item">	
+			<label class="layui-form-label">* 内容</label>
+			<div class="layui-input-block">
+				<textarea name="content" placeholder="" id="editor" style="height:400px;">{$data.content|default=''}</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>	
+</div>		
+{/block}
+{block name="js"}
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    UE.getEditor('editor',{
+        // initialFrameWidth :800,// 设置编辑器宽度
+        initialFrameHeight:400,// 设置编辑器高度
+        scaleEnabled:true,
+		
+    });
+</script>
+<script>
+	layui.use(['element','layer','form'],function(){
+		var element = layui.element
+		,layer = layui.layer
+		,form = layui.form
+		,$ = layui.jquery;
+		
+	})	
+</script>	
+{/block}

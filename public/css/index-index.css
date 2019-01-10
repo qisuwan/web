@@ -1,0 +1,229 @@
+@charset "UTF-8";
+/*首页样式
+*/
+* {margin: 0;padding: 0;}
+.rfloat {float: right}
+.lfloat {float: left}
+
+html,body {
+    width: 100%;
+    height: 100%;
+    background-color: #F2F2F2;
+}
+
+/*section*/
+section {
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/*header*/
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: whitesmoke;
+    overflow: hidden;
+    position: relative;
+}
+.bg-color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-image: url("../img/header_bg.jpg");
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s;
+    z-index: 1;
+}
+.bg-color:after {
+    content: "";
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: -webkit-linear-gradient(rgba(242,242,242,0) 0,rgba(242,242,242,1) 100%);
+    top: 0;
+    left: 0;
+    transition: all 0.5s;
+}
+.clone {
+    top: -200px;
+}
+.clone:after {
+    opacity: 1;
+}
+.login {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    opacity: 0.1;
+}
+.login > a:hover {
+    cursor: default;
+}
+.title {
+    font-size: 30px;
+    text-align: center;
+    z-index: 1;
+    transition: color 1s;
+}
+.title:hover {
+    cursor: default;
+}
+.title > p {
+    font-size: 45px;
+}
+header > button {
+    position: absolute;
+    bottom: 10px;
+    background: none;
+    border: none;
+    z-index: 1;
+}
+header > button:hover{
+    cursor: pointer;
+}
+header > button:focus{
+    outline: none;
+}
+
+/*info*/
+#info {
+    background: none;
+    margin-top: -200px;
+    height: 200px;
+    text-align: center;
+}
+#info > p {
+    font-size: 2rem;
+}
+
+/*content*/
+#content{
+    text-align: left;
+}
+#content a {
+    font-size: 18px;
+    display: block;
+}
+#content .log-box {
+    color: gray;
+    margin-bottom: 10px;
+    height: 140px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+#content .log-time {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+}
+#content .log-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+/*pic*/
+@keyframes pic-show {
+    from {left: 120%}
+    to {left: -30%}
+}
+#pic {
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+}
+#pic .pic-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    line-height: 200px;
+    overflow: hidden;
+    /*box-shadow: 0 0 5px black;*/
+}
+#pic img {
+    width: 100%;
+    height: 100%;
+}
+#pic .img-left, #pic .img-right {
+    width: 5%;
+    background-color: #F2F2F2;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
+}
+#pic .img-left:hover, #pic .img-right:hover {
+    box-shadow: black;
+    border: 1px solid gray;
+}
+#pic .pic-unit {
+    position: absolute;
+    width: 30%;
+    perspective: 200px;
+    animation: pic-show 20s linear infinite;
+    left: 120%;
+    animation-delay: calc((var(--n)) * 5s );
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.pause {
+    animation-play-state: paused;
+}
+#pic .pic-unit:nth-child(2) {
+    --n: 1;
+}
+#pic .pic-unit:nth-child(3) {
+    --n: 2;
+}
+#pic .pic-unit:nth-child(4) {
+    --n: 3;
+}
+#pic .pic-unit:nth-child(5) {
+    --n: 4;
+}
+
+/*message*/
+#message > div {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/*返回顶部*/
+.go-top {
+    margin: 50px auto;
+    text-align: center;
+}
+.go-top button {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 10px black;
+    transition: transform 0.5s;
+}
+.go-top button:hover {
+    transform: scale(1.2,1.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px blue;
+}
+
+/*footer*/
+footer {
+    width: 100%;
+    height: 100px;
+    color: #73777a;
+    text-align: center;
+    background: #212121;
+}
+footer p {
+    line-height: 30px;
+}

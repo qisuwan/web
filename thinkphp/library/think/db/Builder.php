@@ -750,7 +750,7 @@ abstract class Builder
         $sql = str_replace(
             ['%INSERT%', '%TABLE%', '%FIELD%', '%DATA%', '%COMMENT%'],
             [
-                $replace ? 'REPLACE' : 'INSERT',
+                $replace ? ($replace === 'IGNORE' ? 'INSERT IGNORE'  : 'REPLACE') : 'INSERT',
                 $this->parseTable($options['table'], $options),
                 implode(' , ', $fields),
                 implode(' , ', $values),

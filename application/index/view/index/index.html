@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>首页</title>
+    <link rel="icon" href="__IMG__/logo.png" type="images/x-ico" />
+    <link rel="stylesheet" href="__JS__/layui/css/layui.css">
+    <link rel="stylesheet" href="__CSS__/index-index.css">
+    <link rel="stylesheet" href="__CSS__/animate.css">
+</head>
+<body>
+    <!--header-->
+    <header>
+        <div class="login"><a href="#">登录</a></div>
+        <div class="bg-color"></div>
+        <div class="title">
+            <h1>人生犹如一场旅途</h1>
+            <p>welcome to my weblog</p>
+        </div>
+        <button id="go"><i class="layui-icon layui-icon-triangle-d" style="font-size: 30px"></i></button>
+    </header>
+    <div class="layui-container">
+        <!--介绍一下吧-->
+        <section id="info">
+            <h1>Hello World</h1>
+            <p>这是一个不定时更新的一个博客</p>
+        </section>
+        <!--最新的内容展示-->
+        <section id="content">
+            {volist name="loglist" id="log"}
+            <div class="layui-card">
+                <div class="layui-card-header"><a href="{:url('content/show',['id'=>$log['id']])}">{$log.title}</a></div>
+                <div class="layui-card-body">
+                    <div class="log-box">
+                        {$log.content}
+                    </div>
+                    <div style="height: 20px"><span class="log-time"><i class="layui-icon layui-icon-date" style="color: darkorange"></i>&nbsp{$log.create_time|substr=0,10}</span><span class="layui-badge layui-bg-blue log-tag">{$log.tag_name}</span></div>
+                </div>
+            </div>
+            {/volist}
+        </section>
+        <!--照片墙-->
+        <section id="pic" class="animated fadeInUp">
+            <!--<button class="img-left"><i class="layui-icon layui-icon-left" style="font-size: 30px"></i></button>-->
+            <div class="pic-box">
+                <div id="box-1" class="pic-unit">
+                    <img src="__IMG__/baihe.jpg" alt="300x200">
+                </div>
+                <div id="box-2" class="pic-unit">
+                    <img src="__IMG__/baihe.jpg" alt="300x200">
+                </div>
+                <div id="box-3" class="pic-unit">
+                    <img src="__IMG__/baihe.jpg" alt="300x200">
+                </div>
+                <div id="box-4" class="pic-unit">
+                    <img src="__IMG__/baihe.jpg" alt="300x200">
+                </div>
+                <div id="box-5" class="pic-unit">
+                    <img src="__IMG__/baihe.jpg" alt="300x200">
+                </div>
+            </div>
+            <!--<button class="img-right"><i class="layui-icon layui-icon-right" style="font-size: 30px"></i></button>-->
+        </section>
+        <!--留言和反馈-->
+        <section id="message">
+            <div>
+                <p>看到这里，不知道你有没有什么想要说的或反馈给我的意见和bug？可以写下你的留言</p>
+            </div>
+            <!--<button type="button" class="layui-btn layui-btn-normal layui-btn-fluid">留言板</button>-->
+            <form id="ms" class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">称呼</label>
+                    <div class="layui-input-block">
+                        <input name="name" type="text" class="layui-input" lay-verify="required" placeholder="称呼" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">留言</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" class="layui-textarea" lay-verify="required" placeholder="说点是神马吧" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">联系方式</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" lay-verify="required|email" placeholder="邮箱" class="layui-input" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button lay-filter="mess" lay-submit class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-release" style="font-size: 30px"></i></button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <!--联系我-->
+        <section id="contact">
+            <h2>联系我</h2>
+            <p>邮箱地址：<a href="mailto:1084640252@qq.com">1084640252@qq.com</a></p>
+        </section>
+    </div>
+    <div class="go-top"><button><i class="layui-circle layui-icon layui-icon-top" style="font-size: 50px"></i></button></div>
+    <!--footer-->
+    <footer>
+        <div class="">
+            <p>看过一句话“8小时内求生存，8小时外求发展”，emmmmmm......对，很对！</p>
+            <p>网站点击数：0</p>
+            <p>design by 旅丶途  备案号：</p>
+        </div>
+    </footer>
+    <script src="__JS__/layui/layui.js"></script>
+    <script src="__JS__/jquery-3.3.1.min.js"></script>
+    <script>
+        layui.use(['element','form'],function () {
+            var element = layui.element,
+                form = layui.form;
+            form.on('submit(mess)',function (data) {
+                layer.msg('请稍后',{icon: 16, shade: 0.1, time: false});
+                $.post('{:url("message")}','name='+data.field.name+"&content="+data.field.content+"&email="+data.field.email,function (result,status) {
+                    if (result && status == 'success') {
+                        layer.msg("成功",{icon: 1,time: 1000});
+                        setTimeout(function(){
+                            layer.closeAll();
+                            document.getElementById("ms").reset();
+                        },1000);
+                    }
+                    else{
+                        layer.msg("失败",{icon: 2});
+                        setTimeout(function(){layer.closeAll();},1000);
+                    }
+                });
+                return false;
+            })
+        })
+    </script>
+    <script>
+        window.onload = function () {
+            $(window).scroll(function () {
+                let scrollH = document.documentElement.scrollTop || document.body.scrollTop;
+                if (scrollH == 0) {
+                    $("#go").fadeIn();
+                    $(".bg-color").removeClass("clone");
+                    $("header .title").css("color", "#fff");
+                } else {
+                    $("header .title").css("color", "#000");
+                    $(".bg-color").addClass("clone");
+                    $("#go").fadeOut();
+                }
+            });
+            $("#go").click(function () {
+                $(".title").css("color", "#000")
+                $(".bg-color").addClass("clone");
+                $("#go").css("display", "none");
+            })
+            $(".go-top > button").click(function () {
+                let timer = setInterval(function () {
+                    let backtop = document.documentElement.scrollTop || document.body.scrollTop;
+                    let speed = backtop/5;
+                    document.documentElement.scrollTop = backtop - speed;
+                    if(backtop == 0){
+                        clearInterval(timer);
+                    }
+                },30);
+            });
+            $("#pic .pic-unit").mouseenter(function () {
+                $("#pic .pic-unit").css("animation-play-state","paused");
+            });
+            $("#pic .pic-unit").mouseleave(function () {
+                $("#pic .pic-unit").css("animation-play-state","running");
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+@charset "UTF-8";
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    position: relative;
+    min-height: 1000px;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+/*aside*/
+aside {
+    position: fixed;
+    left: -30%;
+    width: 31%;
+    height: 100%;
+    text-align: center;
+    border-right: 1px solid black;
+    box-shadow: 0 1px 10px black;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    transition: 1s;
+    background-color: rgba(34,32,46,0.8);
+    color: whitesmoke;
+    overflow: hidden;
+    z-index: 2;
+}
+aside:hover {
+    left: 0;
+}
+/*aside->info*/
+@keyframes img-rotate {
+    form {transform: rotate(0deg)}
+    to {transform: rotate(360deg)}
+}
+.info {
+    display: flex;
+    height: 200px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 46px;
+}
+.img-box {
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px black;
+    animation: img-rotate 30s linear infinite;
+}
+.img-box > img {
+    width: 100%;
+    height: 100%;
+}
+.info > span {
+    margin: 10px auto;
+    font-size: 20px;
+}
+/*.info > span:after {*/
+    /*content: "旅丶途";*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*color: transparent;*/
+    /*text-shadow: 0px 0px 0px black;*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*perspective: 100px;*/
+    /*transform-origin: bottom;*/
+    /*transform: rotateX(90deg);*/
+/*}*/
+.info a {
+    color: whitesmoke;
+}
+/*aside->comment*/
+.comment {
+    height: calc(100% - 250px);
+    position: relative;
+    border-top: 1px solid black;
+    overflow: hidden;
+}
+.comment > span {
+}
+.comment-box {
+    position: relative;
+    height: calc(100% - 90px);
+    overflow: auto;
+    text-align: left;
+}
+/*.comment-box:before {
+    content: '';
+    background-image: linear-gradient(rgba(34,32,46,1),rgba(34,32,46,0));
+    width: 100%;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.comment-box:after {
+    content: '';
+    background-image: linear-gradient(to top,rgba(34,32,46,1),rgba(34,32,46,0));
+    width: 100%;
+    height: 15px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}*/
+.comment-box::-webkit-scrollbar {
+    width: 4px;
+}
+.comment-box::-webkit-scrollbar-thumb {
+    background-color: rgba(217,217,217,0.6);
+    border-radius: 5px;
+}
+.comment-box::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(217,217,217,0.9);
+    border-radius: 5px;
+}
+.comment-box > p {
+    margin: 10px 0;
+}
+.comment > button {
+    position: absolute;
+    bottom: 20px;
+    left: 0%;
+    background-color: rgba(147,181,207,0.7);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 36px;
+}
+.comment > button:hover {
+    cursor: pointer;
+    background-color: rgba(147,181,207,0.9);
+}
+/*article*/
+article {
+    margin: 0 auto;
+    width: 70%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.content-head-bg {
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 20px;
+    height: 100px;
+}
+.content-head-bg a {
+    text-decoration: none;
+    color: gray;
+}
+.content {
+    margin-bottom: 20px;
+}
+.content a {
+    font-size: 18px;
+    display: block;
+}
+.content .log-box {
+    color: gray;
+    margin-bottom: 10px;
+    height: 140px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.content .log-time {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+}
+.content .log-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+.title {
+    position: relative;
+    text-align: center;
+    height: 100px;
+    padding: 10px;
+    border-style: solid none;
+    border-width: 1px;
+    border-color: black;
+    margin-bottom: 20px;
+    z-index: 0;
+}
+.title > h1 {
+    line-height: 100px;
+}
+.title > span {
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+    display: block;
+    font-size: 13px;
+    color: whitesmoke;
+}
+.title > span > i{
+    font-style: unset;
+    padding: 2px 5px;
+    border: 1px solid #1e9fff;
+    border-radius: 5px;
+    background-color: #1e9fff;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    color: #73777a;
+    text-align: center;
+    background: #212121;
+}
+footer p {
+    font-size: 13px;
+    line-height: 30px;
+}

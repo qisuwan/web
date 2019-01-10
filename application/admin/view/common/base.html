@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>WeblogAdmin</title>
+    <link rel="stylesheet" href="__JS__/layui/css/layui.css"/>
+    <script type="text/javascript" src="__JS__/jquery-3.3.1.min.js"></script>
+    {block name="css"}{/block}
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">WeblogAdmin</div>
+        <!-- 头部区域 -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-user"></i>
+                    {$Think.session.admin_user.name}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="{:url('index/siteInfo')}">网站设置</a></dd>
+                    <dd><a href="{:url('index/changePassword')}">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="./clear">清除缓存</a></li>
+            <li class="layui-nav-item"><a href="./logout">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域 -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="right-nav">
+                <li class="layui-nav-item {$shouye|default=''}"><a href="{:url('index/index')}">首页</a></li>
+                <li class="layui-nav-item {$logs|default=''}"><a href="{:url('weblog/index')}">文章列表</a></li>
+                <li class="layui-nav-item {$tags|default=''}"><a href="{:url('tags/index')}">标签</a></li>
+                <li class="layui-nav-item {$comment|default=''}"><a href="{:url('comment/index')}">评论</a></li>
+                <li class="layui-nav-item {$message|default=''}"><a href="{:url('message/index')}">留言</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="background-color:#f2f2f2;">
+        <!-- 内容主体区域 -->
+        {block name="content"}{/block}
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © admin.com - 底部固定区域
+        </div>
+    </div>
+</div>
+<script src="__JS__/layui/layui.js"></script>
+{block name="js"}{/block}
+</body>
+</html>

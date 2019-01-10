@@ -1,0 +1,62 @@
+{extend name="common:base" /}
+{block name="content"}
+<div class="layui-card">
+    <div class="layui-card-header">网站信息</div>
+    <div class="layui-card-body">
+        <form action="{:url('admin/index/siteInfo')}" class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">网站名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" value="{$Think.config.website.name}" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">域名地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="url" value="{$Think.config.website.url}" lay-verify="required|url" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">缓存时间</label>
+                <div class="layui-input-inline" style="width: 80px">
+                    <input type="text" name="catch_time" value="{$Think.config.website.catch_time}" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+                <label class="layui-form-mid">分钟</label>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">首页标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" value="{$Think.config.website.title}" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">META关键词</label>
+                <div class="layui-input-block">
+                    <textarea name="meta" placeholder="" class="layui-textarea">{$Think.config.website.meta}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">版权信息</label>
+                <div class="layui-input-block">
+                    <input type="text" name="copy" value="{$Think.config.website.copy}" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-filter="*" lay-submit="">保存</button>
+                    <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    layui.use(['element','form'],function () {
+        var element = layui.element,
+            form = layui.form;
+
+    });
+</script>
+{/block}

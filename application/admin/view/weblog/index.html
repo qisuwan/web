@@ -1,0 +1,174 @@
+{extend name="common/base" /}
+{block name="content"}
+<table id="weblog" lay-filter="loglist">
+</table>
+<script type="text/html" id="statusSwitch">
+    <!-- 状态显示按钮 -->
+    <input type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="statusBt" {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+<!--头部工具栏-->
+<script type="text/html" id="headtool">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" onclick="javascript:location.href='addLog'">发布文章</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getShow">设置显示</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getHidden">设置隐藏</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="getDeleteData">批量删除</button>
+    </div>
+</script>
+<!--列工具栏-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+{/block}
+{block name="js"}
+<script>
+layui.use(['element','table'], function(){
+  var table = layui.table
+  ,element = layui.element
+      ,form = layui.form;
+  table.render({
+    elem: '#weblog',
+	url: 'getlog'
+	,toolbar:'#headtool'
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度
+    ,cols: [[
+		{type:'checkbox',fixed:'left'}
+      ,{field:'id', width:80, title: 'ID', sort: true}
+      ,{field:'title', width: '15%', minWidth: 100, title: '标题'}
+      ,{field:'tag_name', width:80, title: '类别', sort: true}
+      ,{field:'content', width:'30%', minWidth: 100, title: '内容'} //minWidth：局部定义当前单元格的最小宽度
+      ,{field:'author', title: '作者', width: 80}
+      ,{field:'status',title:'是否显示',width: 100,toolbar:'#statusSwitch',unresize:true}
+	  ,{fixed:'right',title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    //,skin: 'line' //表格风格
+     ,even: true
+    ,page: true //是否显示分页
+    //,limits: [5, 7, 10]
+    //,limit: 5 //每页默认显示的数量
+  });
+  //头工具栏事件
+  table.on('toolbar(loglist)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    if(checkStatus.data.length == 0){
+        layer.msg("请选择数据");
+        return 0;
+    }
+    switch(obj.event){
+      case 'getDeleteData':
+        var data = checkStatus.data;
+        var val=[];
+        for(let i in data){
+            val.push(data[i].id);
+        }
+        layer.confirm('是否确定？', function(index){
+            layer.close(index);
+            $.ajax({
+                url: "delete",
+                type: "post",
+                data: "ids="+val,
+                success:function (result) {
+                    if(result){
+                        layer.msg("成功",{icon: 1});
+                        setTimeout(function () {
+                            table.reload('weblog');
+                        },1000);
+                    }else{
+                        layer.msg("失败",{icon: 2});
+                    }
+                }
+            });
+        });
+
+      break;
+      case 'getShow':
+        var data = checkStatus.data;
+        var val=[];
+          for(let i in data){
+              val.push(data[i].id);
+          }
+          $.ajax({
+              url: "changeAll",
+              type: "post",
+              data: "val=1&ids="+val,
+              success:function (result) {
+                  if(result){
+                      layer.msg("成功",{icon: 1});
+                      setTimeout(function () {
+                          table.reload('weblog');
+                      },1000);
+                  }else{
+                      layer.msg("失败",{icon: 2});
+                  }
+              }
+          });
+      break;
+      case 'getHidden':
+          var data = checkStatus.data;
+          var val=[];
+          for(let i in data){
+              val.push(data[i].id);
+          }
+          $.ajax({
+              url: "changeAll",
+              type: "post",
+              data: "val=0&ids="+val,
+              success:function (result) {
+                  if(result){
+                      layer.msg("成功",{icon: 1});
+                      setTimeout(function () {
+                          table.reload('weblog');
+                      },1000);
+                  }else{
+                      layer.msg("失败",{icon: 2});
+                  }
+              }
+          });
+      break;
+    };
+  });
+  //监听switch选择
+    form.on('switch(statusBt)',function (obj) {
+        //获取当前行对象(对象.当前控件.当前所在行)
+        let rowTr = obj.othis.parents("tr");
+        //获取当前行的id字段  td:eq(n)表示第n列
+        let id = $(rowTr).find("td:eq(1)").text();
+        $.ajax({
+            url: "change",
+            type: "get",
+            data: "id="+id,
+            success:function (result) {
+                if(result){
+                    layer.msg("成功",{icon: 1});
+                }else{
+                    layer.msg("失败",{icon: 2});
+                    table.reload('weblog');
+                }
+            }
+        });
+    })
+  //监听行工具事件
+  table.on('tool(loglist)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+      if(obj.event === 'del'){
+      layer.confirm('确定删除该文章？', function(index){
+        layer.close(index);
+        layer.msg("请稍后",{icon: 16,shade: 0.01});
+        $.post("delete","ids="+data.id,function (result,status) {
+            if(result&&status){
+                obj.del();
+                layer.msg("成功",{icon: 1})
+            }else{
+                layer.msg("失败",{icon: 2});
+            }
+        });
+      });
+    } else if(obj.event === 'edit'){
+        location.href="update?id="+data.id;
+    }
+  });
+});
+</script>
+{/block}
