@@ -69,8 +69,9 @@
                     url:"{:request()->url()}",
                     type:"POST",
                     data: "data="+JSON.stringify(data.field),
-                    success: function(result){
-                        if(result){
+                    success: function(result, status){
+                        alert(status);
+                        if(result && status == 'success'){
                             location.href = result;
                         }else{
                             layer.msg("用户名或密码错误",{icon: 2,time: 1500});

@@ -1,13 +1,13 @@
 <?php
 /**
- * 由**修改.
- * 2018/12/27 08:42:37
+ * 由root修改.
+ * 2019/01/11 08:56:21
  */
 return [
-	'name' => '网站名',
+	'name' => 'hello',
 	'url' => 'http://www.example.com',
 	'catch_time' => '0',
 	'title' => 'welcome',
 	'meta' => '个人兴趣',
-    'ICP' => '',
+	'ICP' => '蜀。备',
 ];

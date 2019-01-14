@@ -42,21 +42,37 @@ class Weblog extends Base{
         }else{
 	        $status=1;
         }
-        return model("weblog")->isUpdate()->save(['status'=> $status],['id'=>$id]);
+        if (model("weblog")->isUpdate()->save(['status'=> $status],['id'=>$id])) {
+            insert_admin_log("更改文章状态");
+            return true;
+        } else {
+            return false;
+        }
     }
-    //批量改变完整状态
+    //批量改变文章状态
     public  function changeAll(){
-	    return model('weblog')->where("id",'IN',input('post.ids'))->update(['status'=>input('post.val')]);
+	    if (model('weblog')->where("id",'IN',input('post.ids'))->update(['status'=>input('post.val')])) {
+            insert_admin_log("更改文章状态");
+            return true;
+        } else {
+	        return false;
+        }
     }
 
     public function delete(){
-	    return model('weblog')->where("id",'IN',input('post.ids'))->delete();
+	    if (model('weblog')->where("id",'IN',input('post.ids'))->delete()) {
+            insert_admin_log("删除文章");
+            return true;
+        } else {
+	        return false;
+        }
     }
     public function add(){
 	    if($this->request->isPost()) {
             $param = Request::instance()->except("id","post");
             if (model('weblog')->data($param)->save()) {
-                $this->success("添加成功", url("weblog/index"));
+                insert_admin_log("发布文章");
+                $this->success("发布成功", url("weblog/index"));
             } else {
                 $this->error($this->errorMsg);
             }
@@ -65,6 +81,7 @@ class Weblog extends Base{
     public function update(){
 	    if($this->request->isPost()) {
             if (model('weblog')->isUpdate()->save(input('post.'))) {
+                insert_admin_log("修改文章");
                 $this->success("修改成功", url("weblog/index"));
             } else {
                 $this->error($this->errorMsg);

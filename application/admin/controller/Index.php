@@ -35,6 +35,13 @@ class Index extends Base{
                         'name'    =>  $result['username']
                     ];
                     session('admin_user',$admin);
+                    edit_extra_config('logtime',[
+                        'last_login_time' => $result['last_login_time'],
+                        'last_login_ip' =>  $result['last_login_ip'],
+                        'login_count'   => $result['login_count'],
+                    ]);
+                    update_admin_login($result['login_count']);
+                    insert_admin_log("成功登录系统");
                     return "index";
                 }
             }else{
@@ -53,6 +60,7 @@ class Index extends Base{
             $admin['password'] != md5($param['password']) && $this->error('旧密码错误');
             $data = ['id' => session('admin_user.id'), 'password' => $param['new_password']];
             if (model('admin')->isUpdate()->save($data)) {
+                insert_admin_log("修改密码");
                 $this->success('更新成功', url('admin/index/index'));
             } else {
                 $this->error($this->errorMsg);
@@ -64,6 +72,7 @@ class Index extends Base{
 	    if($this->request->isPost()){
             $param = $this->request->param();
             if(edit_extra_config('website',$param)){
+                insert_admin_log("修改网站信息");
                 $this->success('更新成功',url('admin/index/index'));
             }else{
                 $this->error($this->errorMsg);
@@ -76,6 +85,7 @@ class Index extends Base{
 	public function clear()
     {
         clear_cache();
+        insert_admin_log("清除缓存");
         $this->success('清除成功');
     }
 }

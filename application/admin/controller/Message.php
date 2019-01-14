@@ -24,7 +24,12 @@ class Message extends Base{
 	}
 
 	public function delete(){
-        return model('message')->where("id",'IN',input('post.ids'))->delete();
+        if (model('message')->where("id",'IN',input('post.ids'))->delete()) {
+            insert_admin_log("删除留言");
+            return true;
+        }else {
+            return false;
+        }
     }
 }
 ?>

@@ -27,6 +27,7 @@ class Tags extends Base{
         if($this->request->isPost()) {
             $param = $this->request->except('id');
             if (model('tags')->data($param)->save()) {
+                insert_admin_log("添加标签");
                 return true;
             } else {
                 return false;
@@ -37,14 +38,20 @@ class Tags extends Base{
 
 	public function delete(){
 	    if($this->request->isPost()){
-            return model('tags')->where('id','IN',input('post.ids'))->delete();
+            if (model('tags')->where('id','IN',input('post.ids'))->delete()) {
+                insert_admin_log("删除标签");
+                return true;
+            }else {
+                return false;
+            }
         }
     }
 
     public function update(){
         if($this->request->isPost()) {
             if (model('tags')->isUpdate()->save(input('post.'))) {
-                $this->success("添加成功", url("tags/index"));
+                insert_admin_log("修改标签");
+                $this->success("修改成功", url("tags/index"));
             } else {
                 $this->error($this->errorMsg);
             }

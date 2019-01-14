@@ -16,10 +16,12 @@ class Content extends Controller
     public function index() {
         $data = Db::query("SELECT a.*,b.tag_name FROM weblog as a,tags as b WHERE a.tag_id=b.id LIMIT 9");
         $mess = model('message')->all();
+        $user_ip = model('user_log')->distinct(true)->field('ip')->select();
         return $this->fetch('index',[
             'title' => '内容',
             'loglist' => $data,
-            'mess'  => $mess
+            'mess'  => $mess,
+            'count' => count($user_ip),
         ]);
     }
     public function message() {
@@ -41,6 +43,7 @@ class Content extends Controller
     public function show($id) {
         $data = Db::query("SELECT a.*,b.tag_name FROM weblog as a,tags as b WHERE a.tag_id=b.id AND a.id='$id'");
         $mess = model('comment')->where('weblog_id',$id)->select();
-        return $this->fetch("show",['data' => $data[0], 'mess' => $mess]);
+        $user_ip = model('user_log')->distinct(true)->field('ip')->select();
+        return $this->fetch("show",['data' => $data[0], 'mess' => $mess, 'count' => count($user_ip)]);
     }
 }

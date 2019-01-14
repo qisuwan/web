@@ -133,7 +133,12 @@ header > button:focus{
     bottom: 10px;
     right: 15px;
 }
-
+#content .more {
+    text-align: right;
+}
+#content .more a {
+    font-size: 13px;
+}
 /*pic*/
 @keyframes pic-show {
     from {left: 120%}

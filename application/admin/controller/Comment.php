@@ -24,7 +24,12 @@ class Comment extends Base{
 	}
 
     public function delete(){
-        return model('comment')->where("id",'IN',input('post.ids'))->delete();
+        if(model('comment')->where("id",'IN',input('post.ids'))->delete()){
+            insert_admin_log("删除评论");
+            return true;
+        }else {
+            return false;
+        }
     }
 }
 ?>

@@ -21,14 +21,14 @@ function list_tag($array,$pid=0,$level=1){
 
 /**
 *保存操作日志
-*@param string $remark    日志备注
+*@param string $remark    日志备注*
 */
 function insert_admin_log($remark)
 {
-    if (session('?admin_auth')) {
-        db('adminLog')->insert([
+    if (session('?admin_user')) {
+        db('admin_log')->insert([
             'admin_id'    => session('admin_user.id'),
-            'username'    => session('admin_user.username'),
+            'username'    => session('admin_user.name'),
             'useragent'   => request()->server('HTTP_USER_AGENT'),
             'ip'          => request()->ip(),
             'url'         => request()->url(true),
@@ -36,11 +36,30 @@ function insert_admin_log($remark)
             'type'        => request()->type(),
             'param'       => json_encode(request()->param()),
             'remark'      => $remark,
-            'create_time' => time(),
+            'create_time' => date("Y-m-d H:i:s"),
         ]);
     }
 }
-
+/*
+ * 获取用户登录信息
+ *@param time $date 上次登录的时间  默认值设置为网站开站时间2019-01-01
+ * */
+function insert_user_log($date = "2019-01-01") {
+    $time1 = date("Y-m-d",strtotime($date)); //上次登录的时间
+    $time2 = date("Y-m-d");  //当前时间
+    $val =  ceil((strtotime($time2) - strtotime($time1)) / 86400);  //两次时间差值
+    //两次时间大于1天才进行插入日志
+    if($val > 0) {
+        db('user_log')->insert([
+            'useragent' => request()->server('HTTP_USER_AGENT'),
+            'ip' => request()->ip(),
+            'url' => request()->url(true),
+            'method' => request()->method(),
+            'type' => request()->type(),
+            'create_time' => date("Y-m-d H:i:s"),
+        ]);
+    }
+}
 /**
  * 清除系统缓存
  */
@@ -62,7 +81,7 @@ function clear_cache($directory = null)
     }
 }
 /*
- * 修改扩展的配置文件
+ * 修改扩展的配置文件 (默认设置为只能修改extra/文件夹下的配置)
  * @param string $file  需要修改的扩展配置名（即配置文件名）
  * @param, array $array  修改的配置
  * @return  bool
@@ -92,6 +111,23 @@ function edit_extra_config($name,$array){
     }
 }
 
+/*
+ * 更新admin的上次的登录信息
+ * @param  int  $count    登录次数
+ * */
+function update_admin_login($count) {
+    if(session('?admin_user')){
+        db('admin')->where('id',session('admin_user.id'))->update([
+            'last_login_time'   =>    date('Y-m-d H:i:s'),
+            'last_login_ip'     =>    request()->ip(),
+            'login_count'       =>    $count + 1,
+        ]);
+    }
+}
+
+/*
+ * 检查登录
+ * */
 function is_admin_login(){
     $admin = session('admin_user');
     if(empty($admin)){
@@ -100,3 +136,4 @@ function is_admin_login(){
         return $admin['id'];
     }
 }
+

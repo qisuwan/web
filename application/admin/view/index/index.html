@@ -12,6 +12,24 @@
 		</div>
 		<div class="layui-col-md12">
 			<div class="layui-card">
+				<div class="layui-card-header">管理员登录简易日志</div>
+				<div class="layui-card-body">
+					<table class="layui-table">
+						<tbody>
+						<tr>
+							<td style="width:50%;">上次登录时间：{$Think.config.logtime.last_login_time}</td>
+							<td style="width:50%;">上次登录IP：{$Think.config.logtime.last_login_ip}</td>
+						</tr>
+						<tr>
+							<td style="width:50%;">登录次数：{$Think.config.logtime.login_count}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-card">
 				<div class="layui-card-header">服务器信息</div>
 				<div class="layui-card-body">
 					<table class="layui-table">
@@ -34,7 +52,7 @@
 							</tr>
 							<tr>
 								<td>服务器时间：{$server.date}</td>
-								<td>官方网站：<a href="" target="_blank">OpenBMS</a></td>
+								<td>网站首页：<a href="{$Think.config.website.url}" target="_blank">Admin</a></td>
 							</tr>
 						</tbody>
 					</table>
